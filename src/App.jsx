@@ -6,6 +6,7 @@ import ItemPage from './pages/ItemPage';
 import AddItem from './pages/AddItem';
 import ErrorPage from './pages/ErrorPage';
 import MyRequests from './pages/MyRequests';
+import MapView from './pages/MapView/MapView';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
           <Route path='/items/:id' element={<ItemPage/>} />
           <Route path='/add-item' element={<AddItem/>} />
           <Route path='/my-requests' element={<MyRequests/>} />
+          <Route path='/map-page' element={<MapView/>}/>
           <Route path='*' element={<ErrorPage/>} />
         </Routes>
       </div>

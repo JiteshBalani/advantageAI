@@ -22,7 +22,7 @@ const AddItem = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg">
+    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg pt-[70px]">
       <h2 className="text-2xl font-bold mb-6 text-center text-[#D3145A]">Add New Item</h2>
 
       <Form
@@ -109,7 +109,7 @@ const AddItem = () => {
         </Form.Item>
 
         <div className="text-center mt-6">
-          <button className="bg-[#D3145A] text-white p-2 border font-semibold text-lg" htmlType="submit">
+          <button className="bg-[#D3145A] text-white p-2 border font-semibold text-lg cursor-pointer" htmlType="submit">
             Add Item
           </button>
         </div>

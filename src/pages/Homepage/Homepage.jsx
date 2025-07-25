@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Col, Row, Badge, Input, Button, Select } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import Items from "./MockItems";
+import Items from "./Items";
+import { Pagination } from "antd";
 import { Link } from "react-router-dom";
-import { useDispatch } from 'react-redux';
-import { setLoading } from '../../app/loaderSlice';
-import Loader from '../../components/Loader';
 
 const { Meta } = Card;
 
@@ -14,8 +12,15 @@ const Homepage = () => {
   const userItems = JSON.parse(localStorage.getItem("userItems")) || [];
   const allItems =[...Items, ...userItems];
   const [items, setItems] = useState(allItems);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+
+const paginatedItems = items.slice(
+  (currentPage - 1) * itemsPerPage,
+  currentPage * itemsPerPage
+);
+
   console.log(allItems);
-  const dispatch = useDispatch();
 
   const handleSearch = (e) => {
     const search = e.target.value.toLowerCase();
@@ -55,9 +60,39 @@ const Homepage = () => {
   const getConditionClass = (condition) =>
     conditionStyles[condition] || "text-gray-500 font-semibold border p-1 text-center text-md";
 
+  const [loading, setLoading] = useState(true);
+
+  const ShimmerCard = () => (
+  <Col xs={24} sm={12} md={8} lg={6} xl={6}>
+    <div className="border rounded-md shadow-md p-4 animate-pulse space-y-4">
+      <div className="bg-gray-300 h-[200px] w-full rounded-md" />
+      <div className="bg-gray-300 h-5 w-3/4 rounded" />
+      <div className="bg-gray-300 h-4 w-full rounded" />
+      <div className="bg-gray-300 h-4 w-1/2 rounded" />
+      <div className="flex justify-between space-x-2">
+        <div className="bg-gray-300 h-6 w-20 rounded" />
+        <div className="bg-gray-300 h-6 w-24 rounded" />
+      </div>
+    </div>
+  </Col>
+);
+
+
+useEffect(() => {
+  const timer = setTimeout(() => {
+    setLoading(false); // simulate data loading
+  }, 1000);
+  return () => clearTimeout(timer);
+}, []);
+
+
   return (
-    <div style={{ padding: "2px" }}>
-      <div className="mb-2 p-2 rounded-xl flex flex-col md:flex-row md:items-center md:space-x-6 space-y-3 md:space-y-0">
+    <div style={{ paddingTop: "70px" }}>
+    <div className="flex space-x-5 items-center mb-2 ">
+        <Link to='/map-page'><div className="border p-1">Find nearby lenders in your area</div></Link>
+        <Link to='/add-item'><button className="px-2 border text-white cursor-pointer p-1 bg-[#D3145A]">Lend your item</button></Link>
+      </div>
+      <div className="mb-2 rounded-xl flex flex-col md:flex-row md:items-center md:space-x-6 space-y-3 md:space-y-0">
         {/* Search box */}
         <div className="flex items-center flex-1">
           <Input
@@ -102,15 +137,17 @@ const Homepage = () => {
             <Option onClick={() => setItems(Items)} value="All Items">All Items</Option>
             <Option value='yes'>Available</Option>
             <Option value='no'>Borrowed</Option>
-            {/* Add filter options */}
           </Select>
         </div>
       </div>
+      
       <div className="text-xl font-semibold py-4">
         Discover amazing items shared by your neighbors.
       </div>
       <Row gutter={[16, 16]}>
-        {allItems.map((item) => (
+        {loading
+    ? Array.from({ length: itemsPerPage }).map((_, index) => <ShimmerCard key={index} />)
+    : paginatedItems.map((item) => (
           <Col key={item.id} xs={24} sm={12} md={8} lg={6} xl={6}>
             <Link to={`/items/${item.id}`}>
             <Badge.Ribbon text={item.category} color="volcano">
@@ -153,7 +190,6 @@ const Homepage = () => {
                           </div>
                         )}
                       </div>
-
                     </div>
                   }
                 />
@@ -163,6 +199,16 @@ const Homepage = () => {
           </Col>
         ))}
       </Row>
+      <div className="flex justify-center mt-6">
+  <Pagination
+    current={currentPage}
+    pageSize={itemsPerPage}
+    total={items.length}
+    onChange={(page) => setCurrentPage(page)}
+    showSizeChanger={false}
+  />
+</div>
+
     </div>
   );
 };

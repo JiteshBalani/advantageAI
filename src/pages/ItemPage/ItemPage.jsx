@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Card, Button, Tag, message } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import Items from '../Homepage/MockItems'; 
+import Items from '../Homepage/Items'; 
 const { Meta } = Card;
 
 const conditionColors = {
@@ -21,27 +21,24 @@ const ItemPage = () => {
   const handleBorrowRequest = () => {
   const existing = JSON.parse(localStorage.getItem('myRequests')) || [];
 
-  // Avoid duplicate requests
   const alreadyRequested = existing.find(req => req.id === item.id);
   if (alreadyRequested) {
     message.info('You have already requested this item.');
     return;
   }
 
-  // Save to localStorage
   const updated = [...existing, item];
   localStorage.setItem('myRequests', JSON.stringify(updated));
 
-  // Show success message
   message.success(`Borrow request submitted to ${item.owner}`);
 };
 
   if (!item) {
     return (
-      <div className="p-8">
+      <div className="p-8 pt-[70px]">
         <p className="text-xl font-semibold text-red-500">Item not found.</p>
         <Link to="/">
-          <Button type="link" icon={<ArrowLeftOutlined />}>Back to Home</Button>
+          <Button icon={<ArrowLeftOutlined />}>Back to Home</Button>
         </Link>
       </div>
     );

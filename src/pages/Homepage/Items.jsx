@@ -71,6 +71,42 @@ const Items = [
     borrowedBy: null,
     sold: false,
   },
+  {
+    id: "itm007",
+    name: "Dumbell Pair 10 kgs",
+    description: "Rubber coated 10kg dumbell pair",
+    category: "Fitness",
+    owner: "Jitesh Balani",
+    condition: "Excellent",
+    available: "yes",
+    image: "https://m.media-amazon.com/images/I/31ra5v+dzuL._UF894,1000_QL80_.jpg",
+    borrowedBy: null,
+    sold: false,
+  },
+  {
+    id: "itm008",
+    name: "Screwdriver Set",
+    description: "et of 6 different screwdrivers with extension lever.",
+    category: "Tools",
+    owner: "Jitesh Balani",
+    condition: "Very good",
+    available: "yes",
+    image: "https://dqvd9g622ecnq.cloudfront.net/media/webp_image/catalog/product/cache/740696d8dc5da3e55e0d9f1769f31d60/2/8/284400024677-1.webp",
+    borrowedBy: null,
+    sold: false,
+  },
+  {
+    id: "itm009",
+    name: "Chessbase Chess Board",
+    description: "World's smartest electronic chess board.",
+    category: "Games",
+    owner: "Jitesh Balani",
+    condition: "Very Good",
+    available: "yes",
+    image: "https://en.chessbase.com/portals/all/2016/Square%20Off/Square%20off-03_1.jpg",
+    borrowedBy: null,
+    sold: false,
+  }
 ];
 
 export default Items;

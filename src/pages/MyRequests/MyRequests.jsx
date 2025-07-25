@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, Tag, Button, message } from "antd";
 import { Link } from "react-router-dom";
+import { ArrowLeftOutlined } from '@ant-design/icons';
 
 const MyRequests = () => {
   const [requests, setRequests] = useState([]);
@@ -18,14 +19,24 @@ const MyRequests = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
+    <div className="max-w-4xl mx-auto p-4 pt-[70px]">
       <h2 className="text-2xl font-semibold mb-6">My Borrow Requests</h2>
 
       {requests.length === 0 ? (
-        <div className="text-center flex flex-col justify-center items-center space-y-5">
-        <p className="font-semibold text-xl">You haven't requested any items yet.</p>
-        <img style={{width: '500px'}} src="https://cdn4.iconfinder.com/data/icons/office-vol-1-11/16/clipboard-empty-list-shipping-512.png" />
-        <Link to='/'><button className="border-black border-2 bg-[#D3145A] text-lg font-semibold text-white p-2 w-full"> 🔙Go back to home</button></Link>
+        <div className="text-center flex flex-col-reverse justify-center items-center space-y-5">
+          <p className="font-semibold text-xl">
+            You haven't requested any items yet.
+          </p>
+          <img
+            style={{ width: "500px" }}
+            src="https://cdn4.iconfinder.com/data/icons/office-vol-1-11/16/clipboard-empty-list-shipping-512.png"
+          />
+          <Link to="/">
+            <button className=" px-2 mb-2 bg-[#D3145A] text-lg font-semibold text-white p-1 w-full cursor-pointer">
+              {" "}
+              <ArrowLeftOutlined/> Go back to home
+            </button>
+          </Link>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -34,7 +45,10 @@ const MyRequests = () => {
               key={item.id}
               size="small"
               title={
-                <Link to={`/items/${item.id}`} className="text-lg font-semibold  hover:underline">
+                <Link
+                  to={`/items/${item.id}`}
+                  className="text-lg font-semibold  hover:underline"
+                >
                   <span className="text-[#D3145A]">{item.name}</span>
                 </Link>
               }
@@ -48,12 +62,17 @@ const MyRequests = () => {
                   className="w-24 h-24 object-contain rounded"
                 />
                 <div className="flex flex-col justify-between text-sm">
-                  <p><strong>Owner:</strong> {item.owner}</p>
-                  <p><strong>Condition:</strong> {item.condition}</p>
-                  <p><strong>Status:</strong> Pending</p>
+                  <p>
+                    <strong>Owner:</strong> {item.owner}
+                  </p>
+                  <p>
+                    <strong>Condition:</strong> {item.condition}
+                  </p>
+                  <p>
+                    <strong>Status:</strong> Pending
+                  </p>
 
                   <Button
-                    // type="link"
                     danger
                     size="medium"
                     className="p-0 mt-1"
