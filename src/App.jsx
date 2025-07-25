@@ -5,17 +5,19 @@ import Homepage from './pages/Homepage';
 import ItemPage from './pages/ItemPage';
 import AddItem from './pages/AddItem';
 import ErrorPage from './pages/ErrorPage';
+import MyRequests from './pages/MyRequests';
 
 function App() {
 
   return (
     <BrowserRouter>
-      <div>
+      <div className='mx-5 p-2'>
         <Header/>
         <Routes>
           <Route path='/' element={<Homepage/>} />
           <Route path='/items/:id' element={<ItemPage/>} />
           <Route path='/add-item' element={<AddItem/>} />
+          <Route path='/my-requests' element={<MyRequests/>} />
           <Route path='*' element={<ErrorPage/>} />
         </Routes>
       </div>
