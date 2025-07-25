@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import MarkerClusterGroup from "react-leaflet-cluster";
+// import MarkerClusterGroup from "react-leaflet-cluster";
 import L from "leaflet";
 import { Select } from "antd";
 import { Link } from "react-router-dom";
@@ -101,7 +101,7 @@ const MapView = () => {
 
         <LocationMarker position={userPosition} />
 
-        <MarkerClusterGroup>
+        {/* <MarkerClusterGroup> */}
           {items.map((item) => (
             <Marker key={item.id} position={item.coords}>
               <Popup>
@@ -116,7 +116,7 @@ const MapView = () => {
               </Popup>
             </Marker>
           ))}
-        </MarkerClusterGroup>
+        {/* </MarkerClusterGroup> */}
       </MapContainer>
     </div>
   );
