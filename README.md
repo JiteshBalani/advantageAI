@@ -12,9 +12,9 @@ Borrowland is a modern and intuitive React.js web application designed for local
 ## 📸 Screenshots
 
 > 
-![Homepage](image-4.png)
-![Item page](image-5.png)
-![Map view](image-6.png)
+![Homepage](/image-4.png)
+![Item page](/image-5.png)
+![Map view](/image-6.png)
 
 ---
 
