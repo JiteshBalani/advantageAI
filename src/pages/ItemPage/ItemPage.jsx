@@ -14,7 +14,9 @@ const conditionColors = {
 
 const ItemPage = () => {
   const { id } = useParams();
-  const item = Items.find(i => i.id === id);
+  const userItems = JSON.parse(localStorage.getItem("userItems")) || [];
+  const allItems = [...Items, ...userItems];
+  const item = allItems.find(i => i.id === id);
   
   const handleBorrowRequest = () => {
   const existing = JSON.parse(localStorage.getItem('myRequests')) || [];
@@ -92,7 +94,7 @@ const ItemPage = () => {
 
         {isAvailable ? (
           <div className="mt-6 flex justify-end">
-            <button className='bg-amber-400 text-lg p-2 border font-medium'
+            <button className='bg-amber-400 text-lg p-2 border font-medium cursor-pointer'
                     onClick={handleBorrowRequest}
             >Request to Borrow</button>
           </div>

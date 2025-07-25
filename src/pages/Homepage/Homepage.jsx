@@ -11,17 +11,20 @@ const { Meta } = Card;
 
 const Homepage = () => {
 
-  const [items, setItems] = useState(Items);
+  const userItems = JSON.parse(localStorage.getItem("userItems")) || [];
+  const allItems =[...Items, ...userItems];
+  const [items, setItems] = useState(allItems);
+  console.log(allItems);
   const dispatch = useDispatch();
 
   const handleSearch = (e) => {
     const search = e.target.value.toLowerCase();
-    const filteredItems = Items.filter(item => item.name.toLowerCase().includes(search));
+    const filteredItems = allItems.filter(item => item.name.toLowerCase().includes(search));
     setItems(filteredItems);
   }
 
   const sort = (key, direction = 'asc') => {
-    const sorted = [...items].sort((a, b) => {
+    const sorted = [...allItems].sort((a, b) => {
       const valA = a[key]?.toString().toLowerCase();
       const valB = b[key]?.toString().toLowerCase();
 
@@ -36,7 +39,7 @@ const Homepage = () => {
 
   const filterItems = (key, value) => {
     if(value === 'All Items' || value === 'Category'){
-      setItems(Items)
+      setItems(allItems)
       return;
     }
     const filteredItems = Items.filter(item => item[key]?.toLowerCase().includes(value.toLowerCase()));
@@ -107,8 +110,9 @@ const Homepage = () => {
         Discover amazing items shared by your neighbors.
       </div>
       <Row gutter={[16, 16]}>
-        {items.map((item) => (
+        {allItems.map((item) => (
           <Col key={item.id} xs={24} sm={12} md={8} lg={6} xl={6}>
+            <Link to={`/items/${item.id}`}>
             <Badge.Ribbon text={item.category} color="volcano">
               <Card
                 hoverable
@@ -155,6 +159,7 @@ const Homepage = () => {
                 />
               </Card>
             </Badge.Ribbon>
+            </Link>
           </Col>
         ))}
       </Row>
