@@ -1,8 +1,10 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Card, Button, Tag, message } from 'antd';
+import { Card, Button, Tag, message, Tooltip } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import Items from '../Homepage/Items'; 
+import Items from '../Homepage/Items';
+import Loader from '../../components/Loader';
+
 const { Meta } = Card;
 
 const conditionColors = {
@@ -16,22 +18,31 @@ const ItemPage = () => {
   const { id } = useParams();
   const userItems = JSON.parse(localStorage.getItem("userItems")) || [];
   const allItems = [...Items, ...userItems];
+  const [loading, setLoading] = React.useState(false);
   const item = allItems.find(i => i.id === id);
-  
+
   const handleBorrowRequest = () => {
-  const existing = JSON.parse(localStorage.getItem('myRequests')) || [];
+    const existing = JSON.parse(localStorage.getItem('myRequests')) || [];
 
-  const alreadyRequested = existing.find(req => req.id === item.id);
-  if (alreadyRequested) {
-    message.info('You have already requested this item.');
-    return;
-  }
+    const alreadyRequested = existing.find(req => req.id === item.id);
+    setLoading(true)
+    setTimeout(() => {
+      if (alreadyRequested) {
+        message.info('You have already requested this item.');
+        setLoading(false);
+        return;
+      }
 
-  const updated = [...existing, item];
-  localStorage.setItem('myRequests', JSON.stringify(updated));
+      const requestWithTime = {
+        ...item, requestTime: new Date().toLocaleString()
+      };
 
-  message.success(`Borrow request submitted to ${item.owner}`);
-};
+      const updated = [...existing, requestWithTime];
+      localStorage.setItem('myRequests', JSON.stringify(updated));
+      setLoading(false);
+      message.success(`Borrow request submitted to ${item.owner}`);
+    }, 1000)
+  };
 
   if (!item) {
     return (
@@ -45,8 +56,11 @@ const ItemPage = () => {
   }
 
   const isAvailable = item.available === 'yes' && item.sold === false;
-
+  if (loading) {
+    return <Loader />
+  }
   return (
+
     <div className="max-w-4xl mx-auto p-6">
       <Link to="/">
         <Button type="link" icon={<ArrowLeftOutlined />}>Back to Home</Button>
@@ -92,10 +106,15 @@ const ItemPage = () => {
         {isAvailable ? (
           <div className="mt-6 flex justify-end">
             <button className='bg-amber-400 text-lg p-2 border font-medium cursor-pointer'
-                    onClick={handleBorrowRequest}
-            >Request to Borrow</button>
+              onClick={handleBorrowRequest}
+            >{loading ? 'Requesting...' : 'Request to Borrow'}</button>
           </div>
-        ) : null}
+        ) : <div className="mt-6 flex justify-end ">
+          <Tooltip placement="topLeft" title='Already Borrowed' color='#D3145A'>
+            <button className='bg-amber-400 cursor-not-allowed grayscale-100 text-lg p-2 border font-medium'
+            >Request to Borrow</button>
+          </Tooltip>
+        </div>}
       </Card>
     </div>
   );

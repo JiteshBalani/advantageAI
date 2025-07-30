@@ -12,14 +12,13 @@ const Homepage = () => {
   const allItems = [...Items, ...userItems];
   const [items, setItems] = useState(allItems);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const itemsPerPage = 8;
 
   const paginatedItems = items.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-
-  console.log(allItems);
 
   const handleSearch = (e) => {
     const search = e.target.value.toLowerCase();
@@ -64,7 +63,6 @@ const Homepage = () => {
     conditionStyles[condition] ||
     "text-gray-500 font-semibold border p-1 text-center text-md";
 
-  const [loading, setLoading] = useState(true);
 
   const ShimmerCard = () => (
     <Col xs={24} sm={12} md={8} lg={6} xl={6}>
@@ -83,7 +81,7 @@ const Homepage = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setLoading(false); // simulate data loading
+      setLoading(false); 
     }, 1000);
     return () => clearTimeout(timer);
   }, []);
@@ -137,25 +135,24 @@ const Homepage = () => {
             defaultValue="Category"
             style={{ width: 120 }}
             onChange={(val) => filterItems("category", val)}
-          >
-            <Option value="Category">Category</Option>
-            <Option value="Tools">Tools</Option>
-            <Option value="Outdoors">Outdoors</Option>
-            <Option value="Kitchen">Kitchen</Option>
-            <Option value="Fitness">Fitness</Option>
-            <Option value="Games">Games</Option>
-          </Select>
+            options={[{value: 'Category', label: <span>Category</span>},
+                      {value: 'Tools', label: <span>Tools</span>},
+                      {value: 'Outdoors', label: <span>Outdoors</span>},
+                      {value: 'Kitchen', label: <span>Kitchen</span>},
+                      {value: 'Fitness', label: <span>Fitness</span>},
+                      {value: 'Games', label: <span>Games</span>},
+            ]}
+          />
           <Select
             defaultValue="All Items"
             style={{ width: 120 }}
             onChange={(val) => filterItems("available", val)}
-          >
-            <Option onClick={() => setItems(Items)} value="All Items">
-              All Items
-            </Option>
-            <Option value="yes">Available</Option>
-            <Option value="no">Borrowed</Option>
-          </Select>
+            options={[{value:'All Items', label:<span>All Items</span>},
+            {value:'yes', label:<span>Available</span>},
+            {value:'no', label:<span>Borrowed</span>},
+            
+            ]}
+          />
         </div>
       </div>
 
@@ -170,7 +167,7 @@ const Homepage = () => {
           : paginatedItems.map((item) => (
               <Col key={item.id} xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Link to={`/items/${item.id}`}>
-                  <Badge.Ribbon text={item.category} color="volcano">
+                  <Badge.Ribbon text={item.category} color="#D3145A">
                     <Card
                       hoverable
                       cover={
@@ -200,17 +197,17 @@ const Homepage = () => {
                                   {item.condition}
                                 </div>
                               </strong>
-                              <Link to={`/items/${item.id}`}>
+                              {/* <Link to={`/items/${item.id}`}>
                                 <div className="cursor-pointer font-semibold underline text-md">
                                   View Details
                                 </div>
-                              </Link>
+                              </Link> */}
                               {item.borrowedBy === null ? (
-                                <div className="font-semibold text-black text-md border bg-amber-400 p-1 text-center">
+                                <div className="font-semibold text-black text-md bg-green-300 p-1 text-center">
                                   Available
                                 </div>
                               ) : (
-                                <div className="bg-[#D3145A] text-center text-md border-black border text-white font-semibold p-1">
+                                <div className="bg-[#D3145A] text-center text-md text-white font-semibold p-1">
                                   {" "}
                                   Borrowed
                                 </div>
